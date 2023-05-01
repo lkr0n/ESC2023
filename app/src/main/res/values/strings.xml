@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ESC</string>
+    <string name="country_description">%1$s - %2$s</string>
+</resources>

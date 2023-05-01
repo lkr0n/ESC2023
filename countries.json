@@ -1,0 +1,224 @@
+[
+  {
+    "name": "Norway",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Norway.svg/21px-Flag_of_Norway.svg.png",
+    "artist": "Alessandra",
+    "song": "\"Queen of Kings\""
+  },
+  {
+    "name": "Malta",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flag_of_Malta.svg/23px-Flag_of_Malta.svg.png",
+    "artist": "The Busker",
+    "song": "\"Dance (Our Own Party)\""
+  },
+  {
+    "name": "Serbia",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Flag_of_Serbia.svg/23px-Flag_of_Serbia.svg.png",
+    "artist": "Luke Black",
+    "song": "\"Samo mi se spava\" (Само ми се спава)"
+  },
+  {
+    "name": "Latvia",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/8/84/Flag_of_Latvia.svg/23px-Flag_of_Latvia.svg.png",
+    "artist": "Sudden Lights",
+    "song": "\"Aijā\""
+  },
+  {
+    "name": "Portugal",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Portugal.svg/23px-Flag_of_Portugal.svg.png",
+    "artist": "Mimicat",
+    "song": "\"Ai coração\""
+  },
+  {
+    "name": "Ireland",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/4/45/Flag_of_Ireland.svg/23px-Flag_of_Ireland.svg.png",
+    "artist": "Wild Youth",
+    "song": "\"We Are One\""
+  },
+  {
+    "name": "Croatia",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Flag_of_Croatia.svg/23px-Flag_of_Croatia.svg.png",
+    "artist": "Let 3",
+    "song": "\"Mama ŠČ!\""
+  },
+  {
+    "name": "Switzerland",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/0/08/Flag_of_Switzerland_%28Pantone%29.svg/16px-Flag_of_Switzerland_%28Pantone%29.svg.png",
+    "artist": "Remo Forrer",
+    "song": "\"Watergun\""
+  },
+  {
+    "name": "Israel",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Flag_of_Israel.svg/21px-Flag_of_Israel.svg.png",
+    "artist": "Noa Kirel",
+    "song": "\"Unicorn\""
+  },
+  {
+    "name": "Moldova",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/2/27/Flag_of_Moldova.svg/23px-Flag_of_Moldova.svg.png",
+    "artist": "Pasha Parfeni",
+    "song": "\"Soarele și luna\""
+  },
+  {
+    "name": "Sweden",
+    "image": "//upload.wikimedia.org/wikipedia/en/thumb/4/4c/Flag_of_Sweden.svg/23px-Flag_of_Sweden.svg.png",
+    "artist": "Loreen",
+    "song": "\"Tattoo\""
+  },
+  {
+    "name": "Azerbaijan",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Flag_of_Azerbaijan.svg/23px-Flag_of_Azerbaijan.svg.png",
+    "artist": "TuralTuranX",
+    "song": "\"Tell Me More\""
+  },
+  {
+    "name": "Czech Republic",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Flag_of_the_Czech_Republic.svg/23px-Flag_of_the_Czech_Republic.svg.png",
+    "artist": "Vesna",
+    "song": "\"My Sister's Crown\""
+  },
+  {
+    "name": "Netherlands",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/2/20/Flag_of_the_Netherlands.svg/23px-Flag_of_the_Netherlands.svg.png",
+    "artist": "Mia Nicolai and Dion Cooper",
+    "song": "\"Burning Daylight\""
+  },
+  {
+    "name": "Finland",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_Finland.svg/23px-Flag_of_Finland.svg.png",
+    "artist": "Käärijä",
+    "song": "\"Cha Cha Cha\""
+  },
+  {
+    "name": "Denmark",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Flag_of_Denmark.svg/20px-Flag_of_Denmark.svg.png",
+    "artist": "Reiley",
+    "song": "\"Breaking My Heart\""
+  },
+  {
+    "name": "Armenia",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Flag_of_Armenia.svg/23px-Flag_of_Armenia.svg.png",
+    "artist": "Brunette",
+    "song": "\"Future Lover\""
+  },
+  {
+    "name": "Romania",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flag_of_Romania.svg/23px-Flag_of_Romania.svg.png",
+    "artist": "Theodor Andrei",
+    "song": "\"D.G.T. (Off and On)\""
+  },
+  {
+    "name": "Estonia",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Flag_of_Estonia.svg/23px-Flag_of_Estonia.svg.png",
+    "artist": "Alika",
+    "song": "\"Bridges\""
+  },
+  {
+    "name": "Belgium",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/9/92/Flag_of_Belgium_%28civil%29.svg/23px-Flag_of_Belgium_%28civil%29.svg.png",
+    "artist": "Gustaph",
+    "song": "\"Because of You\""
+  },
+  {
+    "name": "Cyprus",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Flag_of_Cyprus.svg/23px-Flag_of_Cyprus.svg.png",
+    "artist": "Andrew Lambrou",
+    "song": "\"Break a Broken Heart\""
+  },
+  {
+    "name": "Iceland",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Flag_of_Iceland.svg/21px-Flag_of_Iceland.svg.png",
+    "artist": "Diljá",
+    "song": "\"Power\""
+  },
+  {
+    "name": "Greece",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Greece.svg/23px-Flag_of_Greece.svg.png",
+    "artist": "Victor Vernicos",
+    "song": "\"What They Say\""
+  },
+  {
+    "name": "Poland",
+    "image": "//upload.wikimedia.org/wikipedia/en/thumb/1/12/Flag_of_Poland.svg/23px-Flag_of_Poland.svg.png",
+    "artist": "Blanka",
+    "song": "\"Solo\""
+  },
+  {
+    "name": "Slovenia",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Flag_of_Slovenia.svg/23px-Flag_of_Slovenia.svg.png",
+    "artist": "Joker Out",
+    "song": "\"Carpe Diem\""
+  },
+  {
+    "name": "Georgia",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Flag_of_Georgia.svg/23px-Flag_of_Georgia.svg.png",
+    "artist": "Iru",
+    "song": "\"Echo\""
+  },
+  {
+    "name": "San Marino",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Flag_of_San_Marino.svg/20px-Flag_of_San_Marino.svg.png",
+    "artist": "Piqued Jacks",
+    "song": "\"Like an Animal\""
+  },
+  {
+    "name": "Austria",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/4/41/Flag_of_Austria.svg/23px-Flag_of_Austria.svg.png",
+    "artist": "Teya and Salena",
+    "song": "\"Who the Hell Is Edgar?\""
+  },
+  {
+    "name": "Albania",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/3/36/Flag_of_Albania.svg/21px-Flag_of_Albania.svg.png",
+    "artist": "Albina and Familja Kelmendi",
+    "song": "\"Duje\""
+  },
+  {
+    "name": "Lithuania",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/1/11/Flag_of_Lithuania.svg/23px-Flag_of_Lithuania.svg.png",
+    "artist": "Monika Linkytė",
+    "song": "\"Stay\""
+  },
+  {
+    "name": "Australia",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/8/88/Flag_of_Australia_%28converted%29.svg/23px-Flag_of_Australia_%28converted%29.svg.png",
+    "artist": "Voyager",
+    "song": "\"Promise\""
+  },
+  {
+    "name": "France",
+    "image": "//upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/23px-Flag_of_France.svg.png",
+    "artist": "La Zarra",
+    "song": "\"Évidemment\""
+  },
+  {
+    "name": "Germany",
+    "image": "//upload.wikimedia.org/wikipedia/en/thumb/b/ba/Flag_of_Germany.svg/23px-Flag_of_Germany.svg.png",
+    "artist": "Lord of the Lost",
+    "song": "\"Blood & Glitter\""
+  },
+  {
+    "name": "Italy",
+    "image": "//upload.wikimedia.org/wikipedia/en/thumb/0/03/Flag_of_Italy.svg/23px-Flag_of_Italy.svg.png",
+    "artist": "Marco Mengoni",
+    "song": "\"Due vite\""
+  },
+  {
+    "name": "Spain",
+    "image": "//upload.wikimedia.org/wikipedia/en/thumb/9/9a/Flag_of_Spain.svg/23px-Flag_of_Spain.svg.png",
+    "artist": "Blanca Paloma",
+    "song": "\"Eaea\""
+  },
+  {
+    "name": "Ukraine",
+    "image": "//upload.wikimedia.org/wikipedia/commons/thumb/4/49/Flag_of_Ukraine.svg/23px-Flag_of_Ukraine.svg.png",
+    "artist": "Tvorchi",
+    "song": "\"Heart of Steel\""
+  },
+  {
+    "name": "United Kingdom",
+    "image": "//upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/23px-Flag_of_the_United_Kingdom.svg.png",
+    "artist": "Mae Muller",
+    "song": "\"I Wrote a Song\""
+  }
+]

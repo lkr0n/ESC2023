@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<style name="CountryBottomSheet" parent="Theme.Design.Light.BottomSheetDialog">
+    <item name="bottomSheetStyle">@style/CountryBottomStyleSheet</item>
+</style>
+
+<style name="CountryBottomStyleSheet" parent="Widget.Design.BottomSheet.Modal">
+    <item name="android:windowBackground">@color/translucent_black</item>
+    <item name="android:backgroundDimEnabled">true</item>
+    <item name="android:windowIsTranslucent">true</item>
+</style>
+</resources>
