@@ -4,9 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import android.content.Intent;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import de.louiskronberg.esc.countryDetail.CountryDetailActivity
+import android.widget.TextView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,11 +20,14 @@ class MainActivity : AppCompatActivity() {
 
         // find a RecyclerView defined in the xml layout files and populate it
         // with an adapter wrapping the list of countries to be displayed
-        val recyclerView: RecyclerView = findViewById(R.id.recycler_view);
+        val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
         val countryAdapter = CountryAdapter(Countries.countries) { country ->
-            val bottom = SongDialogFragment(country)
+            val bottom = BottomSheetDialog(this)
 
-            bottom.show(supportFragmentManager, SongDialogFragment.TAG)
+            bottom.setContentView(R.layout.bottom_sheet_dialog)
+            val textView: TextView = bottom.findViewById(R.id.bottom_text)!!
+            textView.text =  getString(R.string.country_description, country.artist, country.song)
+            bottom.show()
         }
 
         // attach ItemMoveCallback to the RecyclerView making the elements of RecyclerView
