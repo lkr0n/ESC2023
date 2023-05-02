@@ -1,10 +1,13 @@
 package de.louiskronberg.esc
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
@@ -17,6 +20,16 @@ class MainActivity : AppCompatActivity() {
         // the layout directory. This also sets this view to be the content 
         // of this activity
         setContentView(R.layout.activity_main)
+        val gso =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+        val googleSignInClient = GoogleSignIn.getClient(this, gso)
+        googleSignInClient.signOut()
+
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        if (account == null) {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
 
         // find a RecyclerView defined in the xml layout files and populate it
         // with an adapter wrapping the list of countries to be displayed
@@ -26,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
             bottom.setContentView(R.layout.bottom_sheet_dialog)
             val textView: TextView = bottom.findViewById(R.id.bottom_text)!!
-            textView.text =  getString(R.string.country_description, country.artist, country.song)
+            textView.text = getString(R.string.country_description, country.artist, country.song)
             bottom.show()
         }
 
@@ -39,3 +52,4 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
+

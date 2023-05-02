@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ESC</string>
     <string name="country_description">%1$s - %2$s</string>
+    <string name="title_activity_sign_in">SignInActivity</string>
 </resources>

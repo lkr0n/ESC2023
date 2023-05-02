@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.play.services.auth)
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
