@@ -33,7 +33,8 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.volley)
+    implementation(libs.play.services.auth)
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
