@@ -58,17 +58,17 @@ class MainActivity : AppCompatActivity() {
 
             val launcher =
                 registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                    loadRanking(GoogleSignIn.getLastSignedInAccount(this)!!.idToken!!)
+                    //loadRanking(GoogleSignIn.getLastSignedInAccount(this)!!.idToken!!)
                 }
             launcher.launch(intent)
         } else {
-            loadRanking(account.idToken!!)
+            //loadRanking(account.idToken!!)
         }
     }
 
     private fun loadRanking(idToken: String) {
         val volleyQueue = Volley.newRequestQueue(this)
-        val url = getString(R.string.ranking_url, idToken)
+        val url = getString(R.string.api_url)
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET,
