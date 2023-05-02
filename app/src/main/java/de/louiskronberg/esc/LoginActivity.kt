@@ -2,12 +2,14 @@ package de.louiskronberg.esc
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
-import com.google.android.gms.common.api.ApiException
 
 
 class LoginActivity : AppCompatActivity() {
@@ -19,18 +21,23 @@ class LoginActivity : AppCompatActivity() {
         signInButton.setSize(SignInButton.SIZE_STANDARD)
 
         val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
-            val account = task.getResult(ApiException::class.java)
+            signInButton.visibility = View.INVISIBLE
 
-            Log.i("TEST", account.id.toString())
-            Log.i("TEST", account.displayName.toString())
-            Log.i("TEST", account.email.toString())
-            finish()
+            val submitButton: Button = findViewById(R.id.submit_button)
+            val nameText: TextView = findViewById(R.id.name_text)
+            submitButton.visibility = View.VISIBLE
+            nameText.visibility = View.VISIBLE
+
+            submitButton.setOnClickListener {
+                Log.e("TEST", nameText.text.toString())
+                finish()
+            }
         }
 
         signInButton.setOnClickListener {
             val gso =
-                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.client_id)).build()
             val googleSignInClient = GoogleSignIn.getClient(this, gso)
             launcher.launch(googleSignInClient.signInIntent)
         }
