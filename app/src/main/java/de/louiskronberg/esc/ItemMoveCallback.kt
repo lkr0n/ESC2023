@@ -16,6 +16,9 @@ class ItemMoveCallback(private val adapter: CountryAdapter) : ItemTouchHelper.Ca
         viewHolder: RecyclerView.ViewHolder
     ): Int {
         val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+        if (adapter.getLock()) {
+            return makeMovementFlags(0, 0)
+        }
         return makeMovementFlags(dragFlags, 0)
     }
 

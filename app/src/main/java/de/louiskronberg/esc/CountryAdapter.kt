@@ -32,6 +32,7 @@ class CountryAdapter(
         lateinit var country: Country
     }
 
+    private var lock = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -81,16 +82,14 @@ class CountryAdapter(
         val volleyQueue = Volley.newRequestQueue(context)
         val url = context.getString(R.string.api_url) + "/ranking"
         val account = GoogleSignIn.getLastSignedInAccount(context)
-        val jsonArray = JSONArray(dataSet.map{it.name})
+        val jsonArray = JSONArray(dataSet.map { it.name })
         val json = JSONObject().put("countries", jsonArray)
 
         val jsonObjectRequest = object : JsonObjectRequest(
             Method.POST,
             url,
             json,
-            { response ->
-                Log.i("RESPONSE", response.toString())
-            },
+            null,
             { error ->
                 Log.i("ERROR", error.toString())
             }
@@ -103,5 +102,13 @@ class CountryAdapter(
         }
 
         volleyQueue.add(jsonObjectRequest)
+    }
+
+    fun setLock(lock: Boolean) {
+        this.lock = lock
+    }
+
+    fun getLock(): Boolean {
+        return lock
     }
 }
