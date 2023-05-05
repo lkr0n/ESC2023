@@ -32,11 +32,6 @@ class LoginActivity : AppCompatActivity() {
             nameText.visibility = View.VISIBLE
 
             submitButton.setOnClickListener {
-                Log.e("TEST", nameText.text.toString())
-                Log.e("TEST", GoogleSignIn.getLastSignedInAccount(this)!!.id!!)
-
-
-                // todo: check if user exists!
                 createUser(
                     nameText.text.toString(),
                     GoogleSignIn.getLastSignedInAccount(this)!!.idToken!!

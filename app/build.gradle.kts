@@ -33,6 +33,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.gson)
     implementation(libs.volley)
     implementation(libs.play.services.auth)
     implementation(libs.core.ktx)
