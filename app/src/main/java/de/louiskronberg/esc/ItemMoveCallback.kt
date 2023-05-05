@@ -2,6 +2,9 @@ package de.louiskronberg.esc
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ItemMoveCallback(private val adapter: CountryAdapter) : ItemTouchHelper.Callback() {
 
@@ -35,6 +38,12 @@ class ItemMoveCallback(private val adapter: CountryAdapter) : ItemTouchHelper.Ca
         viewHolder: RecyclerView.ViewHolder?,
         actionState: Int
     ) {
+        if (actionState == ItemTouchHelper.ACTION_STATE_IDLE) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    adapter.saveRanking()
+                }
+        }
+
         if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
             if (viewHolder is CountryAdapter.ViewHolder) {
                 val myViewHolder: CountryAdapter.ViewHolder = viewHolder

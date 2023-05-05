@@ -9,12 +9,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.gson.Gson
 import de.louiskronberg.esc.Countries.Country
-import org.json.JSONArray
-import org.json.JSONObject
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.request.headers
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.contentType
 import java.util.Collections
 
 
@@ -67,7 +72,6 @@ class CountryAdapter(
             }
         }
         notifyItemMoved(fromPosition, toPosition)
-        saveRanking()
     }
 
     override fun onRowSelected(myViewHolder: ViewHolder?) {
@@ -78,30 +82,23 @@ class CountryAdapter(
         myViewHolder?.itemView?.setBackgroundColor(Color.WHITE)
     }
 
-    private fun saveRanking() {
-        val volleyQueue = Volley.newRequestQueue(context)
-        val url = context.getString(R.string.api_url) + "/ranking"
+    suspend fun saveRanking() {
         val account = GoogleSignIn.getLastSignedInAccount(context)
-        val jsonArray = JSONArray(dataSet.map { it.name })
-        val json = JSONObject().put("countries", jsonArray)
-
-        val jsonObjectRequest = object : JsonObjectRequest(
-            Method.POST,
-            url,
-            json,
-            null,
-            { error ->
-                Log.i("ERROR", error.toString())
+        val url = context.getString(R.string.api_url) + "/ranking"
+        val body = Gson().toJson(MainActivity.RankingResponse(dataSet.map{it.name}))
+        val client = HttpClient(CIO)
+        val result = client.post(url) {
+            contentType(ContentType.Application.Json)
+            headers {
+                append("Id-Token", account!!.idToken!!)
             }
-        ) {
-            override fun getHeaders(): Map<String, String> {
-                val params: MutableMap<String, String> = HashMap()
-                params["Id-Token"] = account!!.idToken!!
-                return params
-            }
+            setBody(body)
         }
 
-        volleyQueue.add(jsonObjectRequest)
+        if (result.status != HttpStatusCode.OK) {
+            Log.i("ERROR", result.toString())
+            return
+        }
     }
 
     fun setLock(lock: Boolean) {

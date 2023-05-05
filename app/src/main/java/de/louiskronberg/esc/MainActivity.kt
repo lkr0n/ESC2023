@@ -10,8 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -47,45 +45,33 @@ class MainActivity : AppCompatActivity() {
 
             val launcher =
                 registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                    loadRanking(GoogleSignIn.getLastSignedInAccount(this)!!.idToken!!)
+                    runBlocking { loadRanking(GoogleSignIn.getLastSignedInAccount(applicationContext)!!.idToken!!) }
                 }
             launcher.launch(intent)
         } else {
-            loadRanking(account.idToken!!)
+            runBlocking { loadRanking(account.idToken!!) }
         }
     }
 
-    private fun loadRanking(idToken: String) {
-        val volleyQueue = Volley.newRequestQueue(this)
+    private suspend fun loadRanking(idToken: String) {
         val url = getString(R.string.api_url) + "/ranking"
-
-        val jsonObjectRequest = object: JsonObjectRequest(
-            Method.GET,
-            url,
-            null,
-            { response ->
-                Log.i("RESPONSE", response.toString())
-                val gson = Gson()
-                val ranking = gson.fromJson(
-                    response.toString(),
-                    RankingResponse::class.java
-                )
-                val countries = Countries.countries.sortedBy { ranking.countries.indexOf(it.name) }
-                setRanking(countries)
-            },
-            { error ->
-                Log.i("ERROR", error.toString())
-                setRanking(emptyList())
-            }
-        ) {
-            override fun getHeaders(): Map<String, String> {
-                val params: MutableMap<String, String> = HashMap()
-                params["Id-Token"] = idToken
-                return params
+        val client = HttpClient(CIO)
+        val result = client.get(url) {
+            headers {
+                append("Id-Token", idToken)
             }
         }
 
-        volleyQueue.add(jsonObjectRequest)
+        if (result.status != HttpStatusCode.OK) {
+            Log.i("ERROR", result.toString())
+            setRanking(emptyList())
+            return
+        }
+
+        val ranking = Gson().fromJson(result.bodyAsText(), RankingResponse::class.java)
+        Log.i("RESPONSE", ranking.toString())
+        val countries = Countries.countries.sortedBy { ranking.countries.indexOf(it.name) }
+        setRanking(countries)
     }
 
     data class RankingResponse(val countries: List<String>)
@@ -135,7 +121,7 @@ class MainActivity : AppCompatActivity() {
         val client = HttpClient(CIO)
         val result = client.get(url) {
             headers {
-            append("Id-Token", idToken)
+                append("Id-Token", idToken)
             }
         }
 

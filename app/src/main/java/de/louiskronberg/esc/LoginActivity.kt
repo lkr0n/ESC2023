@@ -7,12 +7,19 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
-import org.json.JSONObject
+import com.google.gson.Gson
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.request.headers
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.contentType
+import kotlinx.coroutines.runBlocking
 
 
 class LoginActivity : AppCompatActivity() {
@@ -33,10 +40,12 @@ class LoginActivity : AppCompatActivity() {
 
             submitButton.setOnClickListener {
                 // check if user exists!
-                createUser(
-                    nameText.text.toString(),
-                    GoogleSignIn.getLastSignedInAccount(this)!!.idToken!!
-                )
+                runBlocking {
+                    createUser(
+                        nameText.text.toString(),
+                        GoogleSignIn.getLastSignedInAccount(applicationContext)!!.idToken!!
+                    )
+                }
                 finish()
             }
         }
@@ -50,28 +59,23 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun createUser(name: String, idToken: String) {
-        val volleyQueue = Volley.newRequestQueue(this)
+
+    data class UserBody(val name: String)
+
+    private suspend fun createUser(name: String, idToken: String) {
         val url = getString(R.string.api_url) + "/user"
-        val json = JSONObject()
-        json.put("name", name)
-
-        val jsonObjectRequest = object : JsonObjectRequest(
-            Method.POST,
-            url,
-            json,
-            null,
-            { error ->
-                Log.i("TEST", error.toString())
-            },
-        ) {
-            override fun getHeaders(): MutableMap<String, String> {
-                val headers = HashMap<String, String>()
-                headers["Id-Token"] = idToken
-                return headers
+        val body = Gson().toJson(UserBody(name))
+        val client = HttpClient(CIO)
+        val result = client.post(url) {
+            contentType(ContentType.Application.Json)
+            headers {
+                append("Id-Token", idToken)
             }
+            setBody(body)
         }
-
-        volleyQueue.add(jsonObjectRequest)
+        if (result.status != HttpStatusCode.OK) {
+            Log.i("ERROR", result.toString())
+            return
+        }
     }
 }
