@@ -37,7 +37,7 @@ class CountryAdapter(
         lateinit var country: Country
     }
 
-    private var lock = false
+    private var lock = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)

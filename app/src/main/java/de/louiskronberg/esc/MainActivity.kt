@@ -20,6 +20,9 @@ import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 
@@ -90,6 +93,20 @@ class MainActivity : AppCompatActivity() {
             bottom.show()
         }
 
+        // lock check loop
+        val handler = Handler(Looper.getMainLooper())
+        val r = object : Runnable {
+            override fun run() {
+                val account = GoogleSignIn.getLastSignedInAccount(applicationContext)
+                CoroutineScope(Dispatchers.IO).launch {
+                    checkLock(account!!.idToken!!)
+                }
+                handler.postDelayed(this, 10000)
+            }
+        }
+
+        handler.postDelayed(r, 0)
+
         // attach ItemMoveCallback to the RecyclerView making the elements of RecyclerView
         // draggable
         val callback = ItemMoveCallback(countryAdapter)
@@ -97,20 +114,6 @@ class MainActivity : AppCompatActivity() {
         touchHelper.attachToRecyclerView(recyclerView)
         recyclerView.adapter = countryAdapter
 
-        // lock check loop
-        val handler = Handler(Looper.getMainLooper())
-        val r = object : Runnable {
-            override fun run() {
-                handler.postDelayed(this, 10000)
-
-                val account = GoogleSignIn.getLastSignedInAccount(applicationContext)
-                runBlocking {
-                    checkLock(account!!.idToken!!)
-                }
-            }
-        }
-
-        handler.postDelayed(r, 10000)
     }
 
     data class LockResponse(val lock: Boolean)
