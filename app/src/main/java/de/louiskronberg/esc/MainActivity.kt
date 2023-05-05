@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
 
         Log.i("COUNTRIES", countries.toString())
-        val countryAdapter = CountryAdapter(countries) { country ->
+        val countryAdapter = CountryAdapter(countries, applicationContext) { country ->
             val bottom = BottomSheetDialog(this)
             bottom.setContentView(R.layout.bottom_sheet_dialog)
             val textView: TextView = bottom.findViewById(R.id.bottom_text)!!

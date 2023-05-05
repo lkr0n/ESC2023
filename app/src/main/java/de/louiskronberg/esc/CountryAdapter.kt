@@ -1,20 +1,26 @@
 package de.louiskronberg.esc
 
-import android.content.Intent
+import android.content.Context
 import android.graphics.Color
-import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import java.util.Collections
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import de.louiskronberg.esc.Countries.Country
+import org.json.JSONArray
+import org.json.JSONObject
+import java.util.Collections
 
 
 class CountryAdapter(
     private val dataSet: List<Country>,
+    private val context: Context,
     private val onClick: (Country) -> Unit
 ) :
     RecyclerView.Adapter<CountryAdapter.ViewHolder>(),
@@ -22,8 +28,8 @@ class CountryAdapter(
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.country_text)
-        val imageView: ImageView  = view.findViewById(R.id.country_image)
-        lateinit var country: Country;
+        val imageView: ImageView = view.findViewById(R.id.country_image)
+        lateinit var country: Country
     }
 
 
@@ -39,8 +45,6 @@ class CountryAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        val context = holder.itemView.context
         val country = dataSet[position]
 
         holder.country = country
@@ -53,7 +57,7 @@ class CountryAdapter(
 
     override fun onRowMoved(fromPosition: Int, toPosition: Int) {
         if (fromPosition < toPosition) {
-            for (i  in fromPosition until toPosition) {
+            for (i in fromPosition until toPosition) {
                 Collections.swap(dataSet, i, i + 1)
             }
         } else {
@@ -62,6 +66,7 @@ class CountryAdapter(
             }
         }
         notifyItemMoved(fromPosition, toPosition)
+        saveRanking()
     }
 
     override fun onRowSelected(myViewHolder: ViewHolder?) {
@@ -70,5 +75,33 @@ class CountryAdapter(
 
     override fun onRowClear(myViewHolder: ViewHolder?) {
         myViewHolder?.itemView?.setBackgroundColor(Color.WHITE)
+    }
+
+    private fun saveRanking() {
+        val volleyQueue = Volley.newRequestQueue(context)
+        val url = context.getString(R.string.api_url) + "/ranking"
+        val account = GoogleSignIn.getLastSignedInAccount(context)
+        val jsonArray = JSONArray(dataSet.map{it.name})
+        val json = JSONObject().put("countries", jsonArray)
+
+        val jsonObjectRequest = object : JsonObjectRequest(
+            Method.POST,
+            url,
+            json,
+            { response ->
+                Log.i("RESPONSE", response.toString())
+            },
+            { error ->
+                Log.i("ERROR", error.toString())
+            }
+        ) {
+            override fun getHeaders(): Map<String, String> {
+                val params: MutableMap<String, String> = HashMap()
+                params["Id-Token"] = account!!.idToken!!
+                return params
+            }
+        }
+
+        volleyQueue.add(jsonObjectRequest)
     }
 }
