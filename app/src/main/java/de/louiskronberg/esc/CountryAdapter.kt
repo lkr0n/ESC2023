@@ -9,14 +9,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.Collections
 import de.louiskronberg.esc.Countries.Country
 
 
 class CountryAdapter(
-    private val dataSet: Array<Country>,
+    private val dataSet: List<Country>,
     private val onClick: (Country) -> Unit
 ) :
     RecyclerView.Adapter<CountryAdapter.ViewHolder>(),
@@ -56,11 +54,11 @@ class CountryAdapter(
     override fun onRowMoved(fromPosition: Int, toPosition: Int) {
         if (fromPosition < toPosition) {
             for (i  in fromPosition until toPosition) {
-                Collections.swap(dataSet.asList(), i, i + 1)
+                Collections.swap(dataSet, i, i + 1)
             }
         } else {
             for (i in fromPosition downTo toPosition + 1) {
-                Collections.swap(dataSet.asList(), i, i - 1)
+                Collections.swap(dataSet, i, i - 1)
             }
         }
         notifyItemMoved(fromPosition, toPosition)
