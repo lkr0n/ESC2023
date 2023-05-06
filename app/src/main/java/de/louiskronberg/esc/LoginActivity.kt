@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
             val idToken =
                 GoogleSignIn.getLastSignedInAccount(applicationContext)!!.idToken!!
 
-            val user = runBlocking { UserApi.getUser(getString(R.string.api_url), idToken) }
+            val user = runBlocking { Api.getUser(getString(R.string.api_url), idToken) }
             if (user != null) {
                 finish()
             } else {

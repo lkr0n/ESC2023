@@ -11,15 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.gson.Gson
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.request.get
-import io.ktor.client.request.headers
-import io.ktor.client.statement.bodyAsText
-import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,49 +27,31 @@ class MainActivity : AppCompatActivity() {
         // of this activity
         setContentView(R.layout.activity_main)
 
-        // always sign out to avoid having to do additional logic when login expires
-        val gso =
-            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.client_id)).build()
-        val googleSignInClient = GoogleSignIn.getClient(this, gso)
-        googleSignInClient.signOut()
-
         val account = GoogleSignIn.getLastSignedInAccount(this)
         if (account == null) {
             val intent = Intent(this, LoginActivity::class.java)
 
             val launcher =
                 registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                    runBlocking { loadRanking(GoogleSignIn.getLastSignedInAccount(applicationContext)!!.idToken!!) }
+                    loadRanking()
                 }
             launcher.launch(intent)
         } else {
-            runBlocking { loadRanking(account.idToken!!) }
+            loadRanking()
         }
     }
 
-    private suspend fun loadRanking(idToken: String) {
-        val url = getString(R.string.api_url) + "/ranking"
-        val client = HttpClient(CIO)
-        val result = client.get(url) {
-            headers {
-                append("Id-Token", idToken)
-            }
+    private fun loadRanking() {
+        val ranking = runBlocking {
+            Api
+                .getRanking(
+                    getString(R.string.api_url),
+                    GoogleSignIn.getLastSignedInAccount(applicationContext)!!.idToken!!
+                )
         }
-
-        if (result.status != HttpStatusCode.OK) {
-            Log.i("ERROR", result.toString())
-            setRanking(emptyList())
-            return
-        }
-
-        val ranking = Gson().fromJson(result.bodyAsText(), RankingResponse::class.java)
-        Log.i("RESPONSE", ranking.toString())
-        val countries = Countries.countries.sortedBy { ranking.countries.indexOf(it.name) }
+        val countries = Countries.countries.sortedBy { ranking.indexOf(it.name) }
         setRanking(countries)
     }
-
-    data class RankingResponse(val countries: List<String>)
 
     private fun setRanking(countries: List<Countries.Country>) {
         // find a RecyclerView defined in the xml layout files and populate it
@@ -116,29 +90,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    data class LockResponse(val lock: Boolean)
-
     private suspend fun checkLock(idToken: String) {
-        val url = getString(R.string.api_url) + "/lock"
-
-        val client = HttpClient(CIO)
-        val result = client.get(url) {
-            headers {
-                append("Id-Token", idToken)
-            }
-        }
-
-        if (result.status != HttpStatusCode.OK) {
-            Log.i("ERROR", result.toString())
-            return
-        }
-
-        val lockResponse = Gson().fromJson(result.bodyAsText(), LockResponse::class.java)
-        Log.i("RESPONSE", lockResponse.toString())
-
+        val lock = Api.getLock(getString(R.string.api_url), idToken)
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
         val adapter: CountryAdapter = recyclerView.adapter as CountryAdapter
-        adapter.setLock(lockResponse.lock)
+        adapter.setLock(lock)
     }
 }
 

@@ -19,7 +19,7 @@ class UserActivity : AppCompatActivity() {
             val idToken =
                 GoogleSignIn.getLastSignedInAccount(applicationContext)!!.idToken!!
             runBlocking {
-                UserApi.createUser(
+                Api.createUser(
                     getString(R.string.api_url),
                     nameText.text.toString(),
                     idToken

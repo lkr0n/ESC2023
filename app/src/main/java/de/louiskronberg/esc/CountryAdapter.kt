@@ -2,7 +2,6 @@ package de.louiskronberg.esc
 
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,16 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.gson.Gson
 import de.louiskronberg.esc.Countries.Country
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.request.headers
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
-import io.ktor.http.ContentType
-import io.ktor.http.HttpStatusCode
-import io.ktor.http.contentType
 import java.util.Collections
 
 
@@ -84,21 +74,8 @@ class CountryAdapter(
 
     suspend fun saveRanking() {
         val account = GoogleSignIn.getLastSignedInAccount(context)
-        val url = context.getString(R.string.api_url) + "/ranking"
-        val body = Gson().toJson(MainActivity.RankingResponse(dataSet.map{it.name}))
-        val client = HttpClient(CIO)
-        val result = client.post(url) {
-            contentType(ContentType.Application.Json)
-            headers {
-                append("Id-Token", account!!.idToken!!)
-            }
-            setBody(body)
-        }
-
-        if (result.status != HttpStatusCode.OK) {
-            Log.i("ERROR", result.toString())
-            return
-        }
+        val ranking = Api.Companion.RankingResponse(dataSet.map { it.name })
+        Api.saveRanking(context.getString(R.string.api_url), account!!.idToken!!, ranking)
     }
 
     fun setLock(lock: Boolean) {
