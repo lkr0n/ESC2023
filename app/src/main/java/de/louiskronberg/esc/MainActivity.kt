@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,17 +29,29 @@ class MainActivity : AppCompatActivity() {
         // of this activity
         setContentView(R.layout.activity_main)
 
-        val account = GoogleSignIn.getLastSignedInAccount(this)
-        if (account == null) {
-            val intent = Intent(this, LoginActivity::class.java)
+        val gso =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.client_id)).build()
+        val googleSignInClient = GoogleSignIn.getClient(this, gso)
+        val task = googleSignInClient.silentSignIn()
 
-            val launcher =
-                registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                    loadRanking()
-                }
-            launcher.launch(intent)
-        } else {
+        if (task.isSuccessful) {
             loadRanking()
+        } else {
+            task.addOnCompleteListener {
+                try {
+                    task.getResult(ApiException::class.java)
+                    loadRanking()
+                } catch (apiException: ApiException) {
+                    val intent = Intent(this, LoginActivity::class.java)
+
+                    val launcher =
+                        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                            loadRanking()
+                        }
+                    launcher.launch(intent)
+                }
+            }
         }
     }
 
@@ -76,31 +89,18 @@ class MainActivity : AppCompatActivity() {
                 CoroutineScope(Dispatchers.IO).launch {
                     checkLock(account!!.idToken!!)
                 }
-                lockHandler.postDelayed(this, 10000)
-            }
-        }
-        lockHandler.postDelayed(r, 0)
 
-        // sso loop to stay signed in
-        val ssoHandler = Handler(Looper.getMainLooper())
-        val ssoRunnable = object : Runnable {
-            override fun run() {
                 val gso =
                     GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                         .requestIdToken(getString(R.string.client_id)).build()
                 val googleSignInClient = GoogleSignIn.getClient(applicationContext, gso)
-
-                while (true) {
-                    val task = googleSignInClient.silentSignIn()
-                    if (task.isComplete) {
-                        break
-                    }
+                runBlocking {
+                    googleSignInClient.silentSignIn()
                 }
-
-                lockHandler.postDelayed(this, 15000)
+                lockHandler.postDelayed(this, 10000)
             }
         }
-        ssoHandler.postDelayed(ssoRunnable, 0)
+        lockHandler.postDelayed(r, 0)
 
         // attach ItemMoveCallback to the RecyclerView making the elements of RecyclerView
         // draggable
