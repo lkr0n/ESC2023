@@ -29,6 +29,11 @@ class MainActivity : AppCompatActivity() {
         // of this activity
         setContentView(R.layout.activity_main)
 
+        val launcher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                loadRanking()
+            }
+
         val gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.client_id)).build()
@@ -44,11 +49,6 @@ class MainActivity : AppCompatActivity() {
                     loadRanking()
                 } catch (apiException: ApiException) {
                     val intent = Intent(this, LoginActivity::class.java)
-
-                    val launcher =
-                        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                            loadRanking()
-                        }
                     launcher.launch(intent)
                 }
             }
