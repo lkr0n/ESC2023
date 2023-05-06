@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -68,18 +69,38 @@ class MainActivity : AppCompatActivity() {
         }
 
         // lock check loop
-        val handler = Handler(Looper.getMainLooper())
+        val lockHandler = Handler(Looper.getMainLooper())
         val r = object : Runnable {
             override fun run() {
                 val account = GoogleSignIn.getLastSignedInAccount(applicationContext)
                 CoroutineScope(Dispatchers.IO).launch {
                     checkLock(account!!.idToken!!)
                 }
-                handler.postDelayed(this, 10000)
+                lockHandler.postDelayed(this, 10000)
             }
         }
+        lockHandler.postDelayed(r, 0)
 
-        handler.postDelayed(r, 0)
+        // sso loop to stay signed in
+        val ssoHandler = Handler(Looper.getMainLooper())
+        val ssoRunnable = object : Runnable {
+            override fun run() {
+                val gso =
+                    GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.client_id)).build()
+                val googleSignInClient = GoogleSignIn.getClient(applicationContext, gso)
+
+                while (true) {
+                    val task = googleSignInClient.silentSignIn()
+                    if (task.isComplete) {
+                        break
+                    }
+                }
+
+                lockHandler.postDelayed(this, 15000)
+            }
+        }
+        ssoHandler.postDelayed(ssoRunnable, 0)
 
         // attach ItemMoveCallback to the RecyclerView making the elements of RecyclerView
         // draggable
