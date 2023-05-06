@@ -4,4 +4,6 @@
     <string name="title_activity_sign_in">SignInActivity</string>
     <string name="api_url">https://api.matthewde.com</string>
     <string name="client_id">1049240129010-c4p8acji46erlv6uj60jgi6v9lcbb7dq.apps.googleusercontent.com</string>
+    <string name="user_text">Name</string>
+    <string name="user_button">Submit</string>
 </resources>
