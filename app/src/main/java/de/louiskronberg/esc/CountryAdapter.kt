@@ -1,22 +1,21 @@
 package de.louiskronberg.esc
 
-import android.content.Intent
+import android.content.Context
 import android.graphics.Color
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import java.util.Collections
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import de.louiskronberg.esc.Countries.Country
+import java.util.Collections
 
 
 class CountryAdapter(
-    private val dataSet: Array<Country>,
+    private val dataSet: List<Country>,
+    private val context: Context,
     private val onClick: (Country) -> Unit
 ) :
     RecyclerView.Adapter<CountryAdapter.ViewHolder>(),
@@ -24,10 +23,11 @@ class CountryAdapter(
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.country_text)
-        val imageView: ImageView  = view.findViewById(R.id.country_image)
-        lateinit var country: Country;
+        val imageView: ImageView = view.findViewById(R.id.country_image)
+        lateinit var country: Country
     }
 
+    private var lock = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -41,8 +41,6 @@ class CountryAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        val context = holder.itemView.context
         val country = dataSet[position]
 
         holder.country = country
@@ -55,12 +53,12 @@ class CountryAdapter(
 
     override fun onRowMoved(fromPosition: Int, toPosition: Int) {
         if (fromPosition < toPosition) {
-            for (i  in fromPosition until toPosition) {
-                Collections.swap(dataSet.asList(), i, i + 1)
+            for (i in fromPosition until toPosition) {
+                Collections.swap(dataSet, i, i + 1)
             }
         } else {
             for (i in fromPosition downTo toPosition + 1) {
-                Collections.swap(dataSet.asList(), i, i - 1)
+                Collections.swap(dataSet, i, i - 1)
             }
         }
         notifyItemMoved(fromPosition, toPosition)
@@ -72,5 +70,19 @@ class CountryAdapter(
 
     override fun onRowClear(myViewHolder: ViewHolder?) {
         myViewHolder?.itemView?.setBackgroundColor(Color.WHITE)
+    }
+
+    suspend fun saveRanking() {
+        val account = GoogleSignIn.getLastSignedInAccount(context)
+        val ranking = Api.Companion.RankingResponse(dataSet.map { it.name })
+        Api.saveRanking(context.getString(R.string.api_url), account!!.idToken!!, ranking)
+    }
+
+    fun setLock(lock: Boolean) {
+        this.lock = lock
+    }
+
+    fun getLock(): Boolean {
+        return lock
     }
 }

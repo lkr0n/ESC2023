@@ -1,23 +1,25 @@
 package de.louiskronberg.esc
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
-import com.android.volley.Request
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -26,17 +28,79 @@ class MainActivity : AppCompatActivity() {
         // of this activity
         setContentView(R.layout.activity_main)
 
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        if (account == null) {
+            val intent = Intent(this, LoginActivity::class.java)
+
+            val launcher =
+                registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                    loadRanking()
+                }
+            launcher.launch(intent)
+        } else {
+            loadRanking()
+        }
+    }
+
+    private fun loadRanking() {
+        val ranking = runBlocking {
+            Api
+                .getRanking(
+                    getString(R.string.api_url),
+                    GoogleSignIn.getLastSignedInAccount(applicationContext)!!.idToken!!
+                )
+        }
+        val countries = Countries.countries.sortedBy { ranking.indexOf(it.name) }
+        setRanking(countries)
+    }
+
+    private fun setRanking(countries: List<Countries.Country>) {
         // find a RecyclerView defined in the xml layout files and populate it
         // with an adapter wrapping the list of countries to be displayed
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
-        val countryAdapter = CountryAdapter(Countries.countries) { country ->
-            val bottom = BottomSheetDialog(this)
 
+        Log.i("COUNTRIES", countries.toString())
+        val countryAdapter = CountryAdapter(countries, applicationContext) { country ->
+            val bottom = BottomSheetDialog(this)
             bottom.setContentView(R.layout.bottom_sheet_dialog)
             val textView: TextView = bottom.findViewById(R.id.bottom_text)!!
             textView.text = getString(R.string.country_description, country.artist, country.song)
             bottom.show()
         }
+
+        // lock check loop
+        val lockHandler = Handler(Looper.getMainLooper())
+        val r = object : Runnable {
+            override fun run() {
+                val account = GoogleSignIn.getLastSignedInAccount(applicationContext)
+                CoroutineScope(Dispatchers.IO).launch {
+                    checkLock(account!!.idToken!!)
+                }
+                lockHandler.postDelayed(this, 10000)
+            }
+        }
+        lockHandler.postDelayed(r, 0)
+
+        // sso loop to stay signed in
+        val ssoHandler = Handler(Looper.getMainLooper())
+        val ssoRunnable = object : Runnable {
+            override fun run() {
+                val gso =
+                    GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.client_id)).build()
+                val googleSignInClient = GoogleSignIn.getClient(applicationContext, gso)
+
+                while (true) {
+                    val task = googleSignInClient.silentSignIn()
+                    if (task.isComplete) {
+                        break
+                    }
+                }
+
+                lockHandler.postDelayed(this, 15000)
+            }
+        }
+        ssoHandler.postDelayed(ssoRunnable, 0)
 
         // attach ItemMoveCallback to the RecyclerView making the elements of RecyclerView
         // draggable
@@ -45,44 +109,13 @@ class MainActivity : AppCompatActivity() {
         touchHelper.attachToRecyclerView(recyclerView)
         recyclerView.adapter = countryAdapter
 
-        val gso =
-            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.client_id)).build()
-        val googleSignInClient = GoogleSignIn.getClient(this, gso)
-        // always logout for testing purposes
-        googleSignInClient.signOut()
-
-        val account = GoogleSignIn.getLastSignedInAccount(this)
-        if (account == null) {
-            val intent = Intent(this, LoginActivity::class.java)
-
-            val launcher =
-                registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                    //loadRanking(GoogleSignIn.getLastSignedInAccount(this)!!.idToken!!)
-                }
-            launcher.launch(intent)
-        } else {
-            //loadRanking(account.idToken!!)
-        }
     }
 
-    private fun loadRanking(idToken: String) {
-        val volleyQueue = Volley.newRequestQueue(this)
-        val url = getString(R.string.api_url)
-
-        val jsonObjectRequest = JsonObjectRequest(
-            Request.Method.GET,
-            url,
-            null,
-            { response ->
-                Log.i("TEST", response.toString())
-            },
-            { error ->
-                Log.i("TEST", error.toString())
-            }
-        )
-
-        volleyQueue.add(jsonObjectRequest)
+    private suspend fun checkLock(idToken: String) {
+        val lock = Api.getLock(getString(R.string.api_url), idToken)
+        val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
+        val adapter: CountryAdapter = recyclerView.adapter as CountryAdapter
+        adapter.setLock(lock)
     }
 }
 
