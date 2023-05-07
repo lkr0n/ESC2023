@@ -23,13 +23,17 @@ class CountryAdapter(
     ItemMoveCallback.ItemTouchHelperContract {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.country_text)
+        val countryIdxText: TextView = view.findViewById(R.id.country_idx)
+        val countryNameText: TextView = view.findViewById(R.id.country_text)
+        val countryPoints: TextView = view.findViewById(R.id.country_points)
+
         val imageView: ImageView = view.findViewById(R.id.country_image)
         lateinit var country: Country
     }
 
     private var lock = true
     private var score: Api.Companion.ScoreResponse? = null
+    private lateinit var attachedRcView: RecyclerView
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -46,7 +50,8 @@ class CountryAdapter(
         val country = dataSet[position]
 
         holder.country = country
-        holder.textView.text = holder.country.name
+        holder.countryIdxText.text = "${position + 1}".padStart(2, ' ')
+        holder.countryNameText.text = holder.country.name
         holder.imageView.setImageResource(holder.country.image)
         holder.itemView.setOnClickListener {
             onClick(country)
@@ -55,21 +60,25 @@ class CountryAdapter(
         holder.itemView.setBackgroundColor(Color.WHITE)
 
         if (lock) {
-            holder.textView.setTextColor(Color.GRAY)
+            holder.countryNameText.setTextColor(Color.GRAY)
         } else {
-            holder.textView.setTextColor(Color.BLACK)
+            holder.countryNameText.setTextColor(Color.BLACK)
         }
 
         if (score != null) {
             if (score!!.detailed[country.name] == 3) {
                holder.itemView.setBackgroundColor(Color.GREEN)
+               holder.countryPoints.text = "3 pkt"
             }
             if (score!!.detailed[country.name] == 2) {
                 holder.itemView.setBackgroundColor(Color.YELLOW)
+                holder.countryPoints.text = "2 pkt"
             }
             if (score!!.detailed[country.name] == 1) {
                 holder.itemView.setBackgroundColor(Color.parseColor("#FFA500"))
+                holder.countryPoints.text = "1 pkt"
             }
+            holder.countryPoints.visibility = View.VISIBLE
         }
     }
 

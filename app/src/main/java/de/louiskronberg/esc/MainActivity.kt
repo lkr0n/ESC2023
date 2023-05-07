@@ -150,9 +150,11 @@ class MainActivity : AppCompatActivity() {
     private suspend fun checkScore(idToken: String) {
         val score = Api.getScore(getString(R.string.api_url), idToken)
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
+        val totalPoints: TextView = findViewById(R.id.total_points)
         val adapter: CountryAdapter = recyclerView.adapter as CountryAdapter
 
         if (score != null && adapter.getScore() == null) {
+            totalPoints.text = "Final Score: ${score}"
             runOnUiThread {
                 adapter.setScore(score)
             }
