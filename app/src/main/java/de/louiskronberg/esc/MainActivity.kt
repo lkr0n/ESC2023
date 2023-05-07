@@ -115,7 +115,18 @@ class MainActivity : AppCompatActivity() {
         val lock = Api.getLock(getString(R.string.api_url), idToken)
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
         val adapter: CountryAdapter = recyclerView.adapter as CountryAdapter
-        adapter.setLock(lock)
+
+        if (!adapter.getLock() && lock) {
+            runOnUiThread {
+                adapter.disable()
+            }
+        }
+
+        if (adapter.getLock() && !lock) {
+            runOnUiThread {
+                adapter.enable()
+            }
+        }
     }
 }
 

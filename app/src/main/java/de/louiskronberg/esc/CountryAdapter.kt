@@ -1,5 +1,6 @@
 package de.louiskronberg.esc
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -45,9 +46,17 @@ class CountryAdapter(
 
         holder.country = country
         holder.textView.text = holder.country.name
-        holder.imageView.setImageResource(country.image)
+        holder.imageView.setImageResource(holder.country.image)
         holder.itemView.setOnClickListener {
             onClick(country)
+        }
+
+        holder.itemView.setBackgroundColor(Color.WHITE)
+
+        if (lock) {
+            holder.textView.setTextColor(Color.GRAY)
+        } else {
+            holder.textView.setTextColor(Color.BLACK)
         }
     }
 
@@ -78,11 +87,19 @@ class CountryAdapter(
         Api.saveRanking(context.getString(R.string.api_url), account!!.idToken!!, ranking)
     }
 
-    fun setLock(lock: Boolean) {
-        this.lock = lock
+    @SuppressLint("NotifyDataSetChanged")
+    fun disable() {
+        lock = true
+        notifyDataSetChanged()
     }
 
-    fun getLock(): Boolean {
+    @SuppressLint("NotifyDataSetChanged")
+    fun enable() {
+        lock = false
+        notifyDataSetChanged()
+    }
+
+    fun getLock() : Boolean {
         return lock
     }
 }
