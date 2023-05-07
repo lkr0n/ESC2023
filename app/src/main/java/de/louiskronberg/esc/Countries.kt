@@ -15,7 +15,7 @@ class Countries {
 
          val countries = arrayOf(
              Country(
-                 "Norway",
+                 "Norwegen",
                  R.drawable.norway,
                  "Alessandra",
                  "Queen of Kings"
@@ -27,13 +27,13 @@ class Countries {
                  "Dance (Our Own Party)"
              ),
              Country(
-                 "Serbia",
+                 "Serbien",
                  R.drawable.serbia,
                  "Luke Black",
                  "Samo mi se spava (Само ми се спава)"
              ),
              Country(
-                 "Latvia",
+                 "Lettland",
                  R.drawable.latvia,
                  "Sudden Lights",
                  "Aijā"
@@ -45,19 +45,19 @@ class Countries {
                  "Ai coração"
              ),
              Country(
-                 "Ireland",
+                 "Irland",
                  R.drawable.ireland,
                  "Wild Youth",
                  "We Are One"
              ),
              Country(
-                 "Croatia",
+                 "Kroatien",
                  R.drawable.croatia,
                  "Let 3",
                  "Mama ŠČ!"
              ),
              Country(
-                 "Switzerland",
+                 "Schweiz",
                  R.drawable.switzerland,
                  "Remo Forrer",
                  "Watergun"
@@ -69,31 +69,31 @@ class Countries {
                  "Unicorn"
              ),
              Country(
-                 "Moldova",
+                 "Moldavien",
                  R.drawable.moldova,
                  "Pasha Parfeni",
                  "Soarele și luna"
              ),
              Country(
-                 "Sweden",
+                 "Schweden",
                  R.drawable.sweden,
                  "Loreen",
                  "Tattoo"
              ),
              Country(
-                 "Azerbaijan",
+                 "Aserbaidschan",
                  R.drawable.azerbaijan,
                  "TuralTuranX",
                  "Tell Me More"
              ),
              Country(
-                 "Czech Republic",
+                 "Tschechien",
                  R.drawable.czechrepublic,
                  "Vesna",
                  "My Sister's Crown"
              ),
              Country(
-                 "Netherlands",
+                 "Niederlande",
                  R.drawable.netherlands,
                  "Mia Nicolai and Dion Cooper",
                  "Burning Daylight"
@@ -105,67 +105,67 @@ class Countries {
                  "Cha Cha Cha"
              ),
              Country(
-                 "Denmark",
+                 "Dänemark",
                  R.drawable.denmark,
                  "Reiley",
                  "Breaking My Heart"
              ),
              Country(
-                 "Armenia",
+                 "Armenien",
                  R.drawable.armenia,
                  "Brunette",
                  "Future Lover"
              ),
              Country(
-                 "Romania",
+                 "Rumänien",
                  R.drawable.romania,
                  "Theodor Andrei",
                  "D.G.T. (Off and On)"
              ),
              Country(
-                 "Estonia",
+                 "Estland",
                  R.drawable.estonia,
                  "Alika",
                  "Bridges"
              ),
              Country(
-                 "Belgium",
+                 "Belgien",
                  R.drawable.belgium,
                  "Gustaph",
                  "Because of You"
              ),
              Country(
-                 "Cyprus",
+                 "Zypern",
                  R.drawable.cyprus,
                  "Andrew Lambrou",
                  "Break a Broken Heart"
              ),
              Country(
-                 "Iceland",
+                 "Island",
                  R.drawable.iceland,
                  "Diljá",
                  "Power"
              ),
              Country(
-                 "Greece",
+                 "Griechenland",
                  R.drawable.greece,
                  "Victor Vernicos",
                  "What They Say"
              ),
              Country(
-                 "Poland",
+                 "Polen",
                  R.drawable.poland,
                  "Blanka",
                  "Solo"
              ),
              Country(
-                 "Slovenia",
+                 "Slovenien",
                  R.drawable.slovenia,
                  "Joker Out",
                  "Carpe Diem"
              ),
              Country(
-                 "Georgia",
+                 "Georgien",
                  R.drawable.georgia,
                  "Iru",
                  "Echo"
@@ -177,49 +177,49 @@ class Countries {
                  "Like an Animal"
              ),
              Country(
-                 "Austria",
+                 "Österreich",
                  R.drawable.austria,
                  "Teya and Salena",
                  "Who the Hell Is Edgar?"
              ),
              Country(
-                 "Albania",
+                 "Albanien",
                  R.drawable.albania,
                  "Albina and Familja Kelmendi",
                  "Duje"
              ),
              Country(
-                 "Lithuania",
+                 "Litauen",
                  R.drawable.lithuania,
                  "Monika Linkytė",
                  "Stay"
              ),
              Country(
-                 "Australia",
+                 "Australien",
                  R.drawable.australia,
                  "Voyager",
                  "Promise"
              ),
              Country(
-                 "France",
+                 "Frankreich",
                  R.drawable.france,
                  "La Zarra",
                  "Évidemment"
              ),
              Country(
-                 "Germany",
+                 "Deutschland",
                  R.drawable.germany,
                  "Lord of the Lost",
                  "Blood & Glitter"
              ),
              Country(
-                 "Italy",
+                 "Italien",
                  R.drawable.italy,
                  "Marco Mengoni",
                  "Due vite"
              ),
              Country(
-                 "Spain",
+                 "Spanien",
                  R.drawable.spain,
                  "Blanca Paloma",
                  "Eaea"
@@ -231,7 +231,7 @@ class Countries {
                  "Heart of Steel"
              ),
              Country(
-                 "United Kingdom",
+                 "England",
                  R.drawable.unitedkingdom,
                  "Mae Muller",
                  "I Wrote a Song"

@@ -29,6 +29,7 @@ class CountryAdapter(
     }
 
     private var lock = true
+    private var score: Api.Companion.ScoreResponse? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -57,6 +58,18 @@ class CountryAdapter(
             holder.textView.setTextColor(Color.GRAY)
         } else {
             holder.textView.setTextColor(Color.BLACK)
+        }
+
+        if (score != null) {
+            if (score!!.detailed[country.name] == 3) {
+               holder.itemView.setBackgroundColor(Color.GREEN)
+            }
+            if (score!!.detailed[country.name] == 2) {
+                holder.itemView.setBackgroundColor(Color.YELLOW)
+            }
+            if (score!!.detailed[country.name] == 1) {
+                holder.itemView.setBackgroundColor(Color.parseColor("#FFA500"))
+            }
         }
     }
 
@@ -101,5 +114,22 @@ class CountryAdapter(
 
     fun getLock() : Boolean {
         return lock
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun removeScore() {
+        this.score = null
+        notifyDataSetChanged()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setScore(score: Api.Companion.ScoreResponse) {
+        this.score = score
+        notifyDataSetChanged()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun getScore() : Api.Companion.ScoreResponse? {
+        return this.score
     }
 }

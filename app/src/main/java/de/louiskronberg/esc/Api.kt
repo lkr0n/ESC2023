@@ -114,5 +114,25 @@ class Api {
             Log.i("RESPONSE", lockResponse.toString())
             return lockResponse.lock
         }
+
+        data class ScoreResponse(val score: Int, val detailed: Map<String, Int>)
+
+        suspend fun getScore(apiUrl: String, idToken: String): ScoreResponse? {
+            val url = "$apiUrl/score"
+            val client = HttpClient(CIO)
+            val result = client.get(url) {
+                headers {
+                    append("Id-Token", idToken)
+                }
+            }
+
+            if (result.status != HttpStatusCode.OK) {
+               return null
+            }
+
+            val scoreResponse = Gson().fromJson(result.bodyAsText(), ScoreResponse::class.java)
+            Log.i("RESPONSE", scoreResponse.toString())
+            return scoreResponse
+        }
     }
 }

@@ -102,6 +102,24 @@ class MainActivity : AppCompatActivity() {
         }
         lockHandler.postDelayed(r, 0)
 
+        // score check loop
+        val scoreHandler = Handler(Looper.getMainLooper())
+        val scoreRunnable = object : Runnable {
+            override fun run() {
+                val account = GoogleSignIn.getLastSignedInAccount(applicationContext)
+
+                val adapter: CountryAdapter = recyclerView.adapter as CountryAdapter
+                if (adapter.getLock()) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        checkScore(account!!.idToken!!)
+                    }
+                }
+
+                lockHandler.postDelayed(this, 15000)
+            }
+        }
+        scoreHandler.postDelayed(scoreRunnable, 0)
+
         // attach ItemMoveCallback to the RecyclerView making the elements of RecyclerView
         // draggable
         val callback = ItemMoveCallback(countryAdapter)
@@ -125,6 +143,24 @@ class MainActivity : AppCompatActivity() {
         if (adapter.getLock() && !lock) {
             runOnUiThread {
                 adapter.enable()
+            }
+        }
+    }
+
+    private suspend fun checkScore(idToken: String) {
+        val score = Api.getScore(getString(R.string.api_url), idToken)
+        val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
+        val adapter: CountryAdapter = recyclerView.adapter as CountryAdapter
+
+        if (score != null && adapter.getScore() == null) {
+            runOnUiThread {
+                adapter.setScore(score)
+            }
+        }
+
+        if (score == null && adapter.getScore() != null) {
+            runOnUiThread {
+                adapter.removeScore()
             }
         }
     }
