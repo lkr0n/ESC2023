@@ -39,9 +39,9 @@ class ItemMoveCallback(private val adapter: CountryAdapter) : ItemTouchHelper.Ca
         actionState: Int
     ) {
         if (actionState == ItemTouchHelper.ACTION_STATE_IDLE) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    adapter.saveRanking()
-                }
+            CoroutineScope(Dispatchers.IO).launch {
+                adapter.saveRanking()
+            }
         }
 
         if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {

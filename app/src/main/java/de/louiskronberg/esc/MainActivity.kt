@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         val ranking = runBlocking {
             Api
                 .getRanking(
+                    findViewById(R.id.recycler_view),
                     getString(R.string.api_url),
                     GoogleSignIn.getLastSignedInAccount(applicationContext)!!.idToken!!
                 )
@@ -115,7 +116,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                lockHandler.postDelayed(this, 15000)
+                scoreHandler.postDelayed(this, 10000)
             }
         }
         scoreHandler.postDelayed(scoreRunnable, 0)
@@ -130,8 +131,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun checkLock(idToken: String) {
-        val lock = Api.getLock(getString(R.string.api_url), idToken)
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
+        val lock = Api.getLock(recyclerView, getString(R.string.api_url), idToken)
         val adapter: CountryAdapter = recyclerView.adapter as CountryAdapter
 
         if (!adapter.getLock() && lock) {
@@ -148,14 +149,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun checkScore(idToken: String) {
-        val score = Api.getScore(getString(R.string.api_url), idToken)
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
+        val score = Api.getScore(recyclerView, getString(R.string.api_url), idToken)
         val totalPoints: TextView = findViewById(R.id.total_points)
         val adapter: CountryAdapter = recyclerView.adapter as CountryAdapter
 
         if (score != null && adapter.getScore() == null) {
-            totalPoints.text = "Final Score: ${score}"
             runOnUiThread {
+                totalPoints.text = "Final Score: ${score.score}"
                 adapter.setScore(score)
             }
         }

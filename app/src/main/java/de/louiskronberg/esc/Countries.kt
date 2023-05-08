@@ -1,5 +1,6 @@
 package de.louiskronberg.esc
 
+import android.graphics.Color
 import androidx.annotation.DrawableRes
 
 class Countries {
@@ -9,6 +10,9 @@ class Countries {
         val image: Int,
         val artist: String,
         val song: String,
+        var locked: Boolean = false,
+        var backgroundColor: Int = Color.WHITE,
+        var score: Int = 0
     )
 
      companion object {

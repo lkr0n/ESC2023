@@ -20,6 +20,7 @@ class UserActivity : AppCompatActivity() {
                 GoogleSignIn.getLastSignedInAccount(applicationContext)!!.idToken!!
             runBlocking {
                 Api.createUser(
+                    nameText,
                     getString(R.string.api_url),
                     nameText.text.toString(),
                     idToken

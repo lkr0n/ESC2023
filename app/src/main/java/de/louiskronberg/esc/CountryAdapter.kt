@@ -57,28 +57,15 @@ class CountryAdapter(
             onClick(country)
         }
 
-        holder.itemView.setBackgroundColor(Color.WHITE)
+        holder.itemView.setBackgroundColor(holder.country.backgroundColor)
+        holder.countryNameText.setTextColor(if (holder.country.locked) Color.GRAY else Color.BLACK)
+        holder.countryIdxText.setTextColor(if (holder.country.locked) Color.GRAY else Color.BLACK)
 
-        if (lock) {
-            holder.countryNameText.setTextColor(Color.GRAY)
-        } else {
-            holder.countryNameText.setTextColor(Color.BLACK)
-        }
-
-        if (score != null) {
-            if (score!!.detailed[country.name] == 3) {
-               holder.itemView.setBackgroundColor(Color.GREEN)
-               holder.countryPoints.text = "3 pkt"
-            }
-            if (score!!.detailed[country.name] == 2) {
-                holder.itemView.setBackgroundColor(Color.YELLOW)
-                holder.countryPoints.text = "2 pkt"
-            }
-            if (score!!.detailed[country.name] == 1) {
-                holder.itemView.setBackgroundColor(Color.parseColor("#FFA500"))
-                holder.countryPoints.text = "1 pkt"
-            }
+        if (holder.country.score != 0) {
+            holder.countryPoints.text = "${holder.country.score} pkt"
             holder.countryPoints.visibility = View.VISIBLE
+        } else {
+            holder.countryPoints.visibility = View.INVISIBLE
         }
     }
 
@@ -117,17 +104,23 @@ class CountryAdapter(
     suspend fun saveRanking() {
         val account = GoogleSignIn.getLastSignedInAccount(context)
         val ranking = Api.Companion.RankingResponse(dataSet.map { it.name })
-        Api.saveRanking(context.getString(R.string.api_url), account!!.idToken!!, ranking)
+        Api.saveRanking(attachedRcView, context.getString(R.string.api_url), account!!.idToken!!, ranking)
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun disable() {
+        for (i in dataSet.indices) {
+            dataSet[i].locked = true
+        }
         lock = true
         notifyDataSetChanged()
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun enable() {
+        for (i in dataSet.indices) {
+            dataSet[i].locked = false
+        }
         lock = false
         notifyDataSetChanged()
     }
@@ -139,12 +132,35 @@ class CountryAdapter(
     @SuppressLint("NotifyDataSetChanged")
     fun removeScore() {
         this.score = null
+        for (i in dataSet.indices) {
+            dataSet[i].backgroundColor = Color.WHITE
+            dataSet[i].score = 0
+        }
+
         notifyDataSetChanged()
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun setScore(score: Api.Companion.ScoreResponse) {
         this.score = score
+        for (i in dataSet.indices) {
+            val countryScore = score.detailed[dataSet[i].name]
+            if (countryScore == 3) {
+               dataSet[i].backgroundColor = Color.GREEN
+            }
+            if (countryScore == 2) {
+                dataSet[i].backgroundColor = Color.YELLOW
+            }
+            if (countryScore == 1) {
+                dataSet[i].backgroundColor = Color.parseColor("#FFA500")
+            }
+
+            if (countryScore != null) {
+                dataSet[i].score = countryScore
+            } else {
+                dataSet[i].score = 0
+            }
+        }
         notifyDataSetChanged()
     }
 
