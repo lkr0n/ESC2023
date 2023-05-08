@@ -94,13 +94,24 @@ class CountryAdapter(
         }
         notifyItemMoved(fromPosition, toPosition)
     }
-
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        attachedRcView = recyclerView
+    }
     override fun onRowSelected(myViewHolder: ViewHolder?) {
         myViewHolder?.itemView?.setBackgroundColor(Color.GRAY)
     }
 
     override fun onRowClear(myViewHolder: ViewHolder?) {
         myViewHolder?.itemView?.setBackgroundColor(Color.WHITE)
+
+        // reset all the rank numbers
+        for (i in dataSet.indices) {
+            // father forgive my sins
+            (attachedRcView.findViewHolderForAdapterPosition(i) as ViewHolder?)?.let{
+                it.countryIdxText.text = "${i + 1}".padStart(2, ' ')
+            }
+        }
     }
 
     suspend fun saveRanking() {
