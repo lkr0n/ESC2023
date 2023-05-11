@@ -3,4 +3,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="translucent_black"> #80000000 </color>
+    <color name="euBlue">#004494</color>
 </resources>

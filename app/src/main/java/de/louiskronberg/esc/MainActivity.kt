@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -21,6 +22,8 @@ import kotlinx.coroutines.runBlocking
 
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var toolbar: Toolbar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -28,6 +31,12 @@ class MainActivity : AppCompatActivity() {
         // the layout directory. This also sets this view to be the content 
         // of this activity
         setContentView(R.layout.activity_main)
+
+
+        toolbar = findViewById(R.id.toolbar)
+        toolbar.title = "ESC 2023"
+        setSupportActionBar(toolbar)
+
 
         val launcher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -151,12 +160,11 @@ class MainActivity : AppCompatActivity() {
     private suspend fun checkScore(idToken: String) {
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
         val score = Api.getScore(recyclerView, getString(R.string.api_url), idToken)
-        val totalPoints: TextView = findViewById(R.id.total_points)
         val adapter: CountryAdapter = recyclerView.adapter as CountryAdapter
 
         if (score != null && adapter.getScore() == null) {
             runOnUiThread {
-                totalPoints.text = "Final Score: ${score.score}"
+                toolbar.title = "${toolbar.title} - ${score.score}"
                 adapter.setScore(score)
             }
         }
