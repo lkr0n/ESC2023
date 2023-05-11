@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="translucent_black"> #80000000 </color>
     <color name="euBlue">#004494</color>
+    <color name="euGrey">#404040</color>
 </resources>
