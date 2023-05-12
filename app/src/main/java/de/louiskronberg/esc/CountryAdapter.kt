@@ -108,7 +108,7 @@ class CountryAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun disable() {
+    fun lock() {
         for (i in dataSet.indices) {
             dataSet[i].locked = true
         }
@@ -117,7 +117,7 @@ class CountryAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun enable() {
+    fun unlock() {
         for (i in dataSet.indices) {
             dataSet[i].locked = false
         }
@@ -135,6 +135,7 @@ class CountryAdapter(
         for (i in dataSet.indices) {
             dataSet[i].backgroundColor = Color.WHITE
             dataSet[i].score = 0
+            dataSet[i].locked = false
         }
 
         notifyDataSetChanged()

@@ -146,13 +146,13 @@ class MainActivity : AppCompatActivity() {
 
         if (!adapter.getLock() && lock) {
             runOnUiThread {
-                adapter.disable()
+                adapter.lock()
             }
         }
 
         if (adapter.getLock() && !lock) {
             runOnUiThread {
-                adapter.enable()
+                adapter.unlock()
             }
         }
     }
@@ -164,13 +164,14 @@ class MainActivity : AppCompatActivity() {
 
         if (score != null && adapter.getScore() == null) {
             runOnUiThread {
-                toolbar.title = "${toolbar.title} - ${score.score}"
+                toolbar.title = "${toolbar.title} - Score: ${score.score}"
                 adapter.setScore(score)
             }
         }
 
         if (score == null && adapter.getScore() != null) {
             runOnUiThread {
+                toolbar.title = "ESC2023"
                 adapter.removeScore()
             }
         }

@@ -10,7 +10,7 @@ class Countries {
         val image: Int,
         val artist: String,
         val song: String,
-        var locked: Boolean = false,
+        var locked: Boolean = true,
         var backgroundColor: Int = Color.WHITE,
         var score: Int = 0
     )
