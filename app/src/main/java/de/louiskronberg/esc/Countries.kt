@@ -25,34 +25,16 @@ class Countries {
                  "Queen of Kings"
              ),
              Country(
-                 "Malta",
-                 R.drawable.malta,
-                 "The Busker",
-                 "Dance (Our Own Party)"
-             ),
-             Country(
                  "Serbien",
                  R.drawable.serbia,
                  "Luke Black",
                  "Samo mi se spava (Само ми се спава)"
              ),
              Country(
-                 "Lettland",
-                 R.drawable.latvia,
-                 "Sudden Lights",
-                 "Aijā"
-             ),
-             Country(
                  "Portugal",
                  R.drawable.portugal,
                  "Mimicat",
                  "Ai coração"
-             ),
-             Country(
-                 "Irland",
-                 R.drawable.ireland,
-                 "Wild Youth",
-                 "We Are One"
              ),
              Country(
                  "Kroatien",
@@ -73,7 +55,7 @@ class Countries {
                  "Unicorn"
              ),
              Country(
-                 "Moldavien",
+                 "Moldau",
                  R.drawable.moldova,
                  "Pasha Parfeni",
                  "Soarele și luna"
@@ -85,22 +67,10 @@ class Countries {
                  "Tattoo"
              ),
              Country(
-                 "Aserbaidschan",
-                 R.drawable.azerbaijan,
-                 "TuralTuranX",
-                 "Tell Me More"
-             ),
-             Country(
                  "Tschechien",
                  R.drawable.czechrepublic,
                  "Vesna",
                  "My Sister's Crown"
-             ),
-             Country(
-                 "Niederlande",
-                 R.drawable.netherlands,
-                 "Mia Nicolai and Dion Cooper",
-                 "Burning Daylight"
              ),
              Country(
                  "Finland",
@@ -109,22 +79,10 @@ class Countries {
                  "Cha Cha Cha"
              ),
              Country(
-                 "Dänemark",
-                 R.drawable.denmark,
-                 "Reiley",
-                 "Breaking My Heart"
-             ),
-             Country(
                  "Armenien",
                  R.drawable.armenia,
                  "Brunette",
                  "Future Lover"
-             ),
-             Country(
-                 "Rumänien",
-                 R.drawable.romania,
-                 "Theodor Andrei",
-                 "D.G.T. (Off and On)"
              ),
              Country(
                  "Estland",
@@ -145,40 +103,16 @@ class Countries {
                  "Break a Broken Heart"
              ),
              Country(
-                 "Island",
-                 R.drawable.iceland,
-                 "Diljá",
-                 "Power"
-             ),
-             Country(
-                 "Griechenland",
-                 R.drawable.greece,
-                 "Victor Vernicos",
-                 "What They Say"
-             ),
-             Country(
                  "Polen",
                  R.drawable.poland,
                  "Blanka",
                  "Solo"
              ),
              Country(
-                 "Slovenien",
+                 "Slowenien",
                  R.drawable.slovenia,
                  "Joker Out",
                  "Carpe Diem"
-             ),
-             Country(
-                 "Georgien",
-                 R.drawable.georgia,
-                 "Iru",
-                 "Echo"
-             ),
-             Country(
-                 "San Marino",
-                 R.drawable.sanmarino,
-                 "Piqued Jacks",
-                 "Like an Animal"
              ),
              Country(
                  "Österreich",
@@ -235,7 +169,7 @@ class Countries {
                  "Heart of Steel"
              ),
              Country(
-                 "England",
+                 "Großbritannien",
                  R.drawable.unitedkingdom,
                  "Mae Muller",
                  "I Wrote a Song"
