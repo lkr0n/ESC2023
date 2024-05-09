@@ -2,8 +2,8 @@
     <string name="app_name">ESC</string>
     <string name="country_description">%1$s - %2$s</string>
     <string name="title_activity_sign_in">SignInActivity</string>
-    <string name="api_url">https://api.matthewde.com</string>
-    <string name="client_id">1049240129010-c4p8acji46erlv6uj60jgi6v9lcbb7dq.apps.googleusercontent.com</string>
+    <string name="api_url">https://esc-api-yuz3lwyoza-ey.a.run.app</string>
+    <string name="client_id">505640818666-ebhdfmcl9m06kmiv65rpdvlq24ail25p.apps.googleusercontent.com</string>
     <string name="user_text">Name</string>
     <string name="user_button">Submit</string>
     <string name="flag">FLAG</string>
