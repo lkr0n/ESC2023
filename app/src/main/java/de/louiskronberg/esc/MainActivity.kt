@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
 
         toolbar = findViewById(R.id.toolbar)
-        toolbar.title = "ESC 2023"
+        toolbar.title = "ESC 2024"
         setSupportActionBar(toolbar)
 
 
@@ -171,7 +171,7 @@ class MainActivity : AppCompatActivity() {
 
         if (score == null && adapter.getScore() != null) {
             runOnUiThread {
-                toolbar.title = "ESC2023"
+                toolbar.title = "ESC2024"
                 adapter.removeScore()
             }
         }
