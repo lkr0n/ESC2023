@@ -33,7 +33,7 @@ class Countries {
              Country(
                  "Deutschland",
                  R.drawable.germany,
-                 "",
+                 "Isaak",
                  "Always on the Run"
              ),
              Country(

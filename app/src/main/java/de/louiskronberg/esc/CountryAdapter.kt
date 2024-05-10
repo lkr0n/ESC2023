@@ -64,6 +64,7 @@ class CountryAdapter(
         if (holder.country.score != 0) {
             holder.countryPoints.text = "${holder.country.score} pkt"
             holder.countryPoints.visibility = View.VISIBLE
+            holder.countryPoints.setTextColor(Color.BLACK)
         } else {
             holder.countryPoints.visibility = View.INVISIBLE
         }
