@@ -43,12 +43,6 @@ class Countries {
                  "Fighter"
              ),
              Country(
-                 "Niederlande",
-                 R.drawable.netherlands,
-                 "Joost Klein",
-                 "Europapa"
-             ),
-             Country(
                  "Israel",
                  R.drawable.israel,
                  "Eden Golan",
