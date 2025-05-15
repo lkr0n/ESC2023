@@ -1,8 +1,8 @@
-package de.louiskronberg.esc.countryDetail
+package de.louiskronberg.esc2025.countryDetail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import de.louiskronberg.esc.R
+import de.louiskronberg.esc2025.R
 
 class CountryDetailActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

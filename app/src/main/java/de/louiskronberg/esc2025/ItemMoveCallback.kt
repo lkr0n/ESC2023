@@ -1,4 +1,4 @@
-package de.louiskronberg.esc
+package de.louiskronberg.esc2025
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView

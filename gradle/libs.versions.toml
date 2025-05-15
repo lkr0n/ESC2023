@@ -28,7 +28,7 @@ play-services-auth = { module = "com.google.android.gms:play-services-auth", ver
 volley = { module = "com.android.volley:volley", version.ref = "volley" }
 
 [plugins]
-com-android-application = { id = "com.android.application", version = "8.0.0" }
+com-android-application = { id = "com.android.application", version = "8.9.2" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
 
 [bundles]

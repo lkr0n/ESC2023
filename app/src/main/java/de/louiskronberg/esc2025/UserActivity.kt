@@ -1,4 +1,4 @@
-package de.louiskronberg.esc
+package de.louiskronberg.esc2025
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

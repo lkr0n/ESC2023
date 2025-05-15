@@ -1,4 +1,4 @@
-package de.louiskronberg.esc
+package de.louiskronberg.esc2025
 
 import android.content.Intent
 import android.os.Bundle
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
 
         toolbar = findViewById(R.id.toolbar)
-        toolbar.title = "ESC 2024"
+        toolbar.title = "ESC 2025"
         setSupportActionBar(toolbar)
 
 

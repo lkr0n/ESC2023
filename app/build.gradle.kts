@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "de.louiskronberg.esc"
-    compileSdk = 33
+    namespace = "de.louiskronberg.esc2025"
+    compileSdk = 34
 
     defaultConfig {
-        applicationId = "de.louiskronberg.esc"
+        applicationId = "de.louiskronberg.esc2025"
         minSdk = 24
         targetSdk = 33
         versionCode = 1

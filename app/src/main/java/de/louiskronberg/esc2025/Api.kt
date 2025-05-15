@@ -1,4 +1,4 @@
-package de.louiskronberg.esc
+package de.louiskronberg.esc2025
 
 import android.util.Log
 import android.view.View

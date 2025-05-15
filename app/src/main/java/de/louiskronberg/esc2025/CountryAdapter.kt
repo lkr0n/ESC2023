@@ -1,4 +1,4 @@
-package de.louiskronberg.esc
+package de.louiskronberg.esc2025
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import de.louiskronberg.esc.Countries.Country
+import de.louiskronberg.esc2025.Countries.Country
 import java.util.Collections
 
 
