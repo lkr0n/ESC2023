@@ -2,7 +2,7 @@
     <string name="app_name">ESC 2025</string>
     <string name="country_description">%1$s - %2$s</string>
     <string name="title_activity_sign_in">SignInActivity</string>
-    <string name="api_url">http://192.168.88.252:8080</string>
+    <string name="api_url">https://esc-api-623503616996.europe-west3.run.app</string>
     <string name="client_id">623503616996-47ppfqlh77dr67rko9k7p9brjvipqiiu.apps.googleusercontent.com</string>
     <string name="user_text">Name</string>
     <string name="user_button">Submit</string>
