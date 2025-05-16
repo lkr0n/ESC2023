@@ -31,6 +31,7 @@ import kotlinx.coroutines.runBlocking
 class MainActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private var scoreAvailable = false;
+    private lateinit var leaderboard: List<Api.Companion.LeaderboardEntry>;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -169,6 +170,7 @@ class MainActivity : AppCompatActivity() {
 
         if (score != null && adapter.getScore() == null) {
             this.scoreAvailable = true
+            this.leaderboard = score.leaderboard
             invalidateOptionsMenu()
             runOnUiThread {
                 toolbar.title = "${toolbar.title} - Score: ${score.score}"
@@ -186,10 +188,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // First, create a data class for your users
-    data class UserRank(val username: String, val score: Int)
-
-    class RankingRecyclerAdapter(private val userRanks: List<UserRank>) :
+    class RankingRecyclerAdapter(private val userRanks: List<Api.Companion.LeaderboardEntry>) :
         RecyclerView.Adapter<RankingRecyclerAdapter.ViewHolder>() {
 
         class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -207,7 +206,7 @@ class MainActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val userRank = userRanks[position]
             holder.rankNumber.text = (position + 1).toString()
-            holder.username.text = userRank.username
+            holder.username.text = userRank.name
             holder.score.text = userRank.score.toString()
         }
 
@@ -215,7 +214,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // In your activity or fragment
-    private fun showModernRankingDialog(userRanks: List<UserRank>) {
+    private fun showModernRankingDialog(userRanks: List<Api.Companion.LeaderboardEntry>) {
         val sortedRanks = userRanks.sortedByDescending { it.score }
 
         val builder = AlertDialog.Builder(this)
@@ -239,15 +238,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Sample data for the leaderboard
-    private val userRankings = listOf(
-        UserRank("Player1", 950),
-        UserRank("Player2", 870),
-        UserRank("Player3", 1200),
-        UserRank("Player4", 750),
-        UserRank("Player5", 1100)
-    )
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         if (!scoreAvailable) {
             return false
@@ -260,7 +250,7 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_leaderboard -> {
                 if (scoreAvailable) {
-                    showModernRankingDialog(userRankings)
+                    showModernRankingDialog(this.leaderboard)
                 }
                 true
             }

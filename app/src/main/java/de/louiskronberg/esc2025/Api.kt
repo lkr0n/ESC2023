@@ -131,7 +131,8 @@ class Api {
             return lockResponse.lock
         }
 
-        data class ScoreResponse(val score: Int, val detailed: Map<String, Int>)
+        data class LeaderboardEntry(val name: String, val score: Int)
+        data class ScoreResponse(val score: Int, val detailed: Map<String, Int>, val leaderboard: List<LeaderboardEntry>)
 
         suspend fun getScore(view: View, apiUrl: String, idToken: String): ScoreResponse? {
             val url = "$apiUrl/score"
