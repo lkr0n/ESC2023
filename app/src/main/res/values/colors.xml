@@ -5,4 +5,5 @@
     <color name="translucent_black"> #80000000 </color>
     <color name="euBlue">#004494</color>
     <color name="euGrey">#404040</color>
+    <color name="bright_color">#00BCD4</color> <!-- This is a bright pink color -->
 </resources>

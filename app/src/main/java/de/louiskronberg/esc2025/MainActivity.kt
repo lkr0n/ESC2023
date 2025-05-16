@@ -5,11 +5,18 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -22,8 +29,8 @@ import kotlinx.coroutines.runBlocking
 
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var toolbar: Toolbar
+    private var scoreAvailable = false;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,11 +39,9 @@ class MainActivity : AppCompatActivity() {
         // of this activity
         setContentView(R.layout.activity_main)
 
-
         toolbar = findViewById(R.id.toolbar)
         toolbar.title = "ESC 2025"
         setSupportActionBar(toolbar)
-
 
         val launcher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -163,6 +168,8 @@ class MainActivity : AppCompatActivity() {
         val adapter: CountryAdapter = recyclerView.adapter as CountryAdapter
 
         if (score != null && adapter.getScore() == null) {
+            this.scoreAvailable = true
+            invalidateOptionsMenu()
             runOnUiThread {
                 toolbar.title = "${toolbar.title} - Score: ${score.score}"
                 adapter.setScore(score)
@@ -170,11 +177,96 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (score == null && adapter.getScore() != null) {
+            this.scoreAvailable = false
+            invalidateOptionsMenu()
             runOnUiThread {
-                toolbar.title = "ESC2024"
+                toolbar.title = "ESC 2025"
                 adapter.removeScore()
             }
         }
     }
+
+    // First, create a data class for your users
+    data class UserRank(val username: String, val score: Int)
+
+    class RankingRecyclerAdapter(private val userRanks: List<UserRank>) :
+        RecyclerView.Adapter<RankingRecyclerAdapter.ViewHolder>() {
+
+        class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val rankNumber: TextView = view.findViewById(R.id.rank_number)
+            val username: TextView = view.findViewById(R.id.username)
+            val score: TextView = view.findViewById(R.id.score)
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.ranking_item, parent, false)
+            return ViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            val userRank = userRanks[position]
+            holder.rankNumber.text = (position + 1).toString()
+            holder.username.text = userRank.username
+            holder.score.text = userRank.score.toString()
+        }
+
+        override fun getItemCount() = userRanks.size
+    }
+
+    // In your activity or fragment
+    private fun showModernRankingDialog(userRanks: List<UserRank>) {
+        val sortedRanks = userRanks.sortedByDescending { it.score }
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Tabelle")
+
+        val rankingView = layoutInflater.inflate(R.layout.ranking_dialog_recycler, null)
+        val recyclerView = rankingView.findViewById<RecyclerView>(R.id.ranking_recycler)
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = RankingRecyclerAdapter(sortedRanks)
+
+        builder.setView(rankingView)
+        builder.setPositiveButton("Schließen") { dialog, _ -> dialog.dismiss() }
+
+        val dialog = builder.create()
+        dialog.show()
+
+        // Change the button color after showing the dialog
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.apply {
+            setTextColor(resources.getColor(R.color.bright_color, theme))
+        }
+    }
+
+    // Sample data for the leaderboard
+    private val userRankings = listOf(
+        UserRank("Player1", 950),
+        UserRank("Player2", 870),
+        UserRank("Player3", 1200),
+        UserRank("Player4", 750),
+        UserRank("Player5", 1100)
+    )
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        if (!scoreAvailable) {
+            return false
+        }
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_leaderboard -> {
+                if (scoreAvailable) {
+                    showModernRankingDialog(userRankings)
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 }
 
